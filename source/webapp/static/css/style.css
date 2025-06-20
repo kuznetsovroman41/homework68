@@ -1,3 +1,11 @@
+.articles{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
 .article {
+    width: 32%;
     border: solid 2px red;
 }

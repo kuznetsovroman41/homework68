@@ -11,20 +11,19 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-{% for article in articles %}
-<div class="article">
-    <h1>{{article.title}}</h1>
-    <p>{{article.content}}</p>
-    <p>{{article.author}}</p>
-    <hr/>
-</div>
-{% empty %}
-<p>No articles</p>
-{% endfor %}
-
-<img src="{% static cat_avatar %}" alt="">
-
 <a href="add-article/">Create article</a>
+<div class="articles">
+    {% for article in articles %}
+    <div class="article">
+        <a href="article/?id={{article.id}}"><h1>{{article.title}}</h1></a>
+        <p>{{article.content}}</p>
+        <p>{{article.author}}</p>
+        <hr/>
+    </div>
 
+    {% empty %}
+    <p>No articles</p>
+    {% endfor %}
+</div>
 </body>
 </html>
