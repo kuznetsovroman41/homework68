@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-<a href="add-article/">Create article</a>
+<a href="{% url 'add-article' %}">Create article</a>
 <div class="articles">
     {% for article in articles %}
     <div class="article">
-        <a href="article/{{article.id}}/"><h1>{{article.title}}</h1></a>
+        <a href="{% url 'article-detail' article.pk %}"><h1>{{article.title}}</h1></a>
         <p>{{article.content}}</p>
         <p>{{article.author}}</p>
         <hr/>

@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+# from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 
 from webapp.models import Article
 
@@ -15,20 +15,14 @@ def create_article(request):
         title = request.POST.get('title')
         content = request.POST.get('content')
         author = request.POST.get('author')
-        Article.objects.create(title=title, content=content, author=author)
-        return HttpResponseRedirect("/")
+        article = Article.objects.create(title=title, content=content, author=author)
+        # return HttpResponseRedirect("/")
+        return redirect("article-detail", pk=article.pk)
     else:
         return render(request, 'create_article.html')
 
 
 def article_detail(request, *args, pk, **kwargs):
-    print(args)
-    print(kwargs)
-    if pk:
-        try:
-            article = Article.objects.get(id=pk)
-            return render(request, 'detail_article.html', {"article": article})
-        except Article.DoesNotExist:
-            return HttpResponseRedirect("/")
-    else:
-        return HttpResponseRedirect("/")
+    article = get_object_or_404(Article, pk=pk)
+    return render(request, 'detail_article.html', {"article": article})
+
