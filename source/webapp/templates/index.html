@@ -15,7 +15,7 @@
 <div class="articles">
     {% for article in articles %}
     <div class="article">
-        <a href="article/?id={{article.id}}"><h1>{{article.title}}</h1></a>
+        <a href="article/{{article.id}}/"><h1>{{article.title}}</h1></a>
         <p>{{article.content}}</p>
         <p>{{article.author}}</p>
         <hr/>

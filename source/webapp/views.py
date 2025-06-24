@@ -21,11 +21,12 @@ def create_article(request):
         return render(request, 'create_article.html')
 
 
-def article_detail(request):
-    article_id = request.GET.get('id')
-    if article_id:
+def article_detail(request, *args, pk, **kwargs):
+    print(args)
+    print(kwargs)
+    if pk:
         try:
-            article = Article.objects.get(id=article_id)
+            article = Article.objects.get(id=pk)
             return render(request, 'detail_article.html', {"article": article})
         except Article.DoesNotExist:
             return HttpResponseRedirect("/")
