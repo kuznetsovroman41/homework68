@@ -9,7 +9,8 @@
         <h1>Название - {{article.title}}</h1>
         <p>Контент - {{article.content}}</p>
         <p>Автор - {{article.author}}</p>
-        <p>Дата создания - {{article.created_at}}</p>
+        <p>Дата создания - {{article.created_at}} </p>
+        <p>Статус - {{ article.get_status_display }} </p>
         <hr/>
     </div>
 {% endblock %}
