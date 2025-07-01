@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 # from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 
 from webapp.models import Article
+from webapp.validation import validate
 
 
 # Create your views here.
@@ -15,8 +16,14 @@ def create_article(request):
         title = request.POST.get('title')
         content = request.POST.get('content')
         author = request.POST.get('author')
-        article = Article.objects.create(title=title, content=content, author=author)
-        return redirect("article-detail", pk=article.pk)
+        article = Article(title=title, content=content, author=author)
+
+        errors = validate(request.POST)
+        if errors:
+            return render(request, 'create_article.html', {"errors": errors, "article": article})
+        else:
+            article.save()
+            return redirect("article-detail", pk=article.pk)
     else:
         return render(request, 'create_article.html')
 
@@ -27,7 +34,11 @@ def update_article(request, *args, pk, **kwargs):
         article.title = request.POST.get('title')
         article.content = request.POST.get('content')
         article.author = request.POST.get('author')
-        article.save()
+        errors = validate(request.POST)
+        if errors:
+            return render(request, 'update_article.html', {"article": article, "errors": errors})
+        else:
+            article.save()
         return redirect("article-detail", pk=article.pk)
     else:
         return render(request, 'update_article.html', {"article": article})
