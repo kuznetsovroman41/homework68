@@ -1,15 +1,28 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>{{article.title}}</title>
+    <title>{{ article.title }}</title>
+{% endblock %}
+
+
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'add-article' %}">Create article</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'article-update' article.pk %}">Update article</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'article-delete' article.pk %}">Delete article</a>
+    </li>
 {% endblock %}
 
 {% block content %}
     <div class="article">
-        <h1>Название - {{article.title}}</h1>
-        <p>Контент - {{article.content}}</p>
-        <p>Автор - {{article.author}}</p>
-        <p>Дата создания - {{article.created_at}} </p>
+        <h1>Название - {{ article.title }}</h1>
+        <p>Контент - {{ article.content }}</p>
+        <p>Автор - {{ article.author }}</p>
+        <p>Дата создания - {{ article.created_at }} </p>
         <p>Статус - {{ article.get_status_display }} </p>
         <hr/>
     </div>
