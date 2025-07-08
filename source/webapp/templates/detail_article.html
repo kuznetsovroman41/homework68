@@ -25,5 +25,14 @@
         <p>Дата создания - {{ article.created_at }} </p>
         <p>Статус - {{ article.get_status_display }} </p>
         <hr/>
+        <h5>Tags</h5>
+        {% for tag in article.tags.all %}
+            {% if forloop.last %} {{ tag }}. {% else %} {{ tag }}, {% endif %}
+        {% endfor %}
+
+        <h5>Comment</h5>
+        {% for comment in article.comments.all %}
+            <p>{{ comment.text }}</p>
+        {% endfor %}
     </div>
 {% endblock %}
