@@ -1,23 +1,9 @@
 {% csrf_token %}
-{#<label>Title:</label><br/>#}
-{##}
-{#{% if errors.title %}#}
-{#    <input class="border border-danger" type="text" value="{{ article.title }}" name="title"/><br/>#}
-{#    <p class="text-danger">{{ errors.title }}</p>#}
-{#{% else %}#}
-{#    <input type="text" value="{{ article.title }}" name="title"/><br/>#}
-{#{% endif %}#}
-{#<label>Text:</label><br/>#}
-{#<textarea name="content">{{ article.content }}</textarea><br/>#}
-{#<label>Author:</label><br/>#}
-{#<input type="text" value="{{ article.author }}" name="author"/><br/>#}
-{#<br/>#}
 
 
-{#{% for error in form.non_field_errors %}#}
-{#   <p class="form-error">{{ error }}</p>#}
-{#{% endfor %}#}
-
+{% for error in form.non_field_errors %}
+   <p class="text-danger">{{ error }}</p>
+{% endfor %}
 
 {% for field in form %}
    <p><label for="{{ field.id_for_label }}">{{ field.label }}</label></p>
@@ -26,36 +12,5 @@
    {% endfor %}
    <p>{{ field }}</p>
 {% endfor %}
-
-
-
-{#<div class="row">#}
-{#    <div class="col-6">#}
-{#        <p><label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label></p>#}
-{#        {% for error in form.title.errors %}#}
-{#            <p class="text-danger">{{ error }}</p>#}
-{#        {% endfor %}#}
-{#        <p>{{ form.title }}</p>#}
-{#    </div>#}
-{#    <div class="col-6">#}
-{#        <p><label for="{{ form.author.id_for_label }}">{{ form.author.label }}</label></p>#}
-{#        {% for error in form.author.errors %}#}
-{#            <p class="text-danger">{{ error }}</p>#}
-{#        {% endfor %}#}
-{#        <p>{{ form.author }}</p>#}
-{#    </div>#}
-{#</div>#}
-{##}
-{#<p><label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label></p>#}
-{#{% for error in form.content.errors %}#}
-{#    <p class="text-danger">{{ error }}</p>#}
-{#{% endfor %}#}
-{#<p>{{ form.content }}</p>#}
-{##}
-{#<p><label for="{{ form.status.id_for_label }}">{{ form.status.label }}</label></p>#}
-{#{% for error in form.status.errors %}#}
-{#    <p class="text-danger">{{ error }}</p>#}
-{#{% endfor %}#}
-{#<p>{{ form.status }}</p>#}
 
 <input type="submit" value="{{ button_text }}"/>

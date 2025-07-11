@@ -1,19 +1,34 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import widgets
 
-from webapp.models import statuses, Tag
+from webapp.models import Article
 
 
-class ArticleForm(forms.Form):
-    title = forms.CharField(
-        max_length=100,
-        required=True,
-        label='Title',
-        widget=widgets.Input(attrs={"class": "form-control"}),
-        error_messages={'required': 'Please enter title'},
+class ArticleForm(forms.ModelForm):
 
-    )
-    author = forms.CharField(max_length=5, required=True, label='Author', widget=widgets.Input(attrs={"class": "form-control"}))
-    content = forms.CharField(widget=forms.Textarea(attrs={"cols": "20", "rows": "5", "class": "form-control"}), required=True, label='Content')
-    status = forms.ChoiceField(choices=statuses, widget=widgets.Select(attrs={"class": "form-control"}),)
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=widgets.SelectMultiple(attrs={"class": "form-control"}), required=False)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for v in self.visible_fields():
+            if not isinstance(v.field.widget, widgets.CheckboxSelectMultiple):
+                v.field.widget.attrs['class'] = 'form-control'
+
+    class Meta:
+        model = Article
+        fields = ('title', 'author', 'content', 'status', 'tags',)
+        widgets = {
+            'tags': forms.CheckboxSelectMultiple(),
+        }
+
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        if len(title) < 5:
+            raise ValidationError("Title must be at least 5 characters long")
+        return title
+
+    def clean(self):
+        title = self.cleaned_data.get('title')
+        content = self.cleaned_data.get('content')
+        if title and content and title == content:
+            raise ValidationError("Название и контент не могут быть одинаковыми")
+        return self.cleaned_data
