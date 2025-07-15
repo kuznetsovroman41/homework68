@@ -7,15 +7,15 @@ from webapp.forms import ArticleForm
 from webapp.models import Article
 
 
-class IndexView(View):
+class ArticleListView(View):
 
     def get(self, request):
         articles = Article.objects.order_by('-created_at')
-        return render(request, 'index.html', {"articles": articles})
+        return render(request, 'articles/index.html', {"articles": articles})
 
 
-class CreateView(FormView):
-    template_name = 'create_article.html'
+class CreateArticleView(FormView):
+    template_name = 'articles/create_article.html'
     form_class = ArticleForm
 
     def form_valid(self, form):
@@ -23,8 +23,8 @@ class CreateView(FormView):
         return redirect("article-detail", pk=article.pk)
 
 
-class UpdateView(FormView):
-    template_name = 'update_article.html'
+class UpdateArticleView(FormView):
+    template_name = 'articles/update_article.html'
     form_class = ArticleForm
 
     def dispatch(self, request, *args, **kwargs):
@@ -55,11 +55,11 @@ def delete_article(request, *args, pk, **kwargs):
         article.delete()
         return redirect("index")
     else:
-        return render(request, 'delete_article.html', {"article": article})
+        return render(request, 'articles/delete_article.html', {"article": article})
 
 
-class DetailView(TemplateView):
-    template_name = 'detail_article.html'
+class DetailArticleView(TemplateView):
+    template_name = 'articles/detail_article.html'
 
     def dispatch(self, request, *args, **kwargs):
         self.article = get_object_or_404(Article, pk=self.kwargs['pk'])
