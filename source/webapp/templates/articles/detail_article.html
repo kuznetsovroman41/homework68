@@ -31,7 +31,7 @@
         {% endfor %}
 
         <h5>Comment</h5>
-        {% for comment in article.comments.all %}
+        {% for comment in comments %}
             <p>{{ comment.text }}</p>
         {% endfor %}
     </div>

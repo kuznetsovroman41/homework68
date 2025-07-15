@@ -1,8 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.http import urlencode
-from django.views import View
-from django.views.generic import TemplateView, FormView, ListView
+from django.views.generic import FormView, ListView, DetailView
 
 from webapp.forms import ArticleForm, SearchForm
 
@@ -87,20 +86,12 @@ def delete_article(request, *args, pk, **kwargs):
         return render(request, 'articles/delete_article.html', {"article": article})
 
 
-class DetailArticleView(TemplateView):
+class DetailArticleView(DetailView):
     template_name = 'articles/detail_article.html'
+    model = Article
 
-    def dispatch(self, request, *args, **kwargs):
-        self.article = get_object_or_404(Article, pk=self.kwargs['pk'])
-        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['article'] = self.article
-        return context
-
-    # def get_template_names(self):
-    #     if self.article.status == "deleted":
-    #         return ["deleted_article.html"]
-    #     else:
-    #         return ['detail_article.html']
+        result = super().get_context_data(**kwargs)
+        result['comments'] = self.object.comments.order_by('-created_at')
+        return result
