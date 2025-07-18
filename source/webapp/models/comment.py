@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from webapp.models.base_create_update import BaseCreateUpdateModel
 
@@ -16,3 +17,6 @@ class Comment(BaseCreateUpdateModel):
         db_table = 'comments'
         verbose_name = 'Комментарий'
         verbose_name_plural = "Комментарии"
+
+    def get_absolute_url(self):
+        return reverse("article-detail", kwargs={"pk": self.article_id})

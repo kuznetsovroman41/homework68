@@ -15,6 +15,9 @@
     <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="{% url 'article-delete' article.pk %}">Delete article</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'add-comment' article.pk %}">Create comment</a>
+    </li>
 {% endblock %}
 
 {% block content %}
@@ -32,7 +35,13 @@
 
         <h5>Comment</h5>
         {% for comment in comments %}
-            <p>{{ comment.text }}</p>
+            <div class="card">
+                <p>{{ comment.text }}</p>
+                <a href="{% url 'comment-update' comment.pk %}">Update</a>
+                <a href="{% url 'comment-delete' comment.pk %}">Delete</a>
+            
+            </div>
+
         {% endfor %}
     </div>
 {% endblock %}

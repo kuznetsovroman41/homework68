@@ -1,17 +1,10 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import widgets
-
+from webapp.forms.base_form import BaseForm
 from webapp.models import Article
 
 
-class ArticleForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for v in self.visible_fields():
-            if not isinstance(v.field.widget, widgets.CheckboxSelectMultiple):
-                v.field.widget.attrs['class'] = 'form-control'
+class ArticleForm(BaseForm):
 
     class Meta:
         model = Article
