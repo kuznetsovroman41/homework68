@@ -45,7 +45,7 @@ class ArticleListView(ListView):
             return self.form.cleaned_data['search']
 
 
-class CreateArticleView(LoginRequiredMixin,CreateView):
+class CreateArticleView(LoginRequiredMixin, CreateView):
     template_name = 'articles/create_article.html'
     # model = Article
     # fields = ['title', 'author', 'content', 'tags']

@@ -37,7 +37,11 @@
 
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'accounts:logout' %}">Logout</a>
+                        <form action="{% url 'accounts:logout' %}" method="post">
+                            {% csrf_token %}
+                            <button class="nav-link active" type="submit">Logout</button>
+                        </form>
+
                     </li>
 
                 {% else %}
