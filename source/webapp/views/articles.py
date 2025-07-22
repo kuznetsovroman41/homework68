@@ -1,4 +1,6 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -16,6 +18,7 @@ class ArticleListView(ListView):
     paginate_by = 5
 
     def dispatch(self, request, *args, **kwargs):
+        print(request.user)
         self.form = self.get_search_form()
         self.search_value = self.get_search_value()
         return super().dispatch(request, *args, **kwargs)
@@ -42,7 +45,7 @@ class ArticleListView(ListView):
             return self.form.cleaned_data['search']
 
 
-class CreateArticleView(CreateView):
+class CreateArticleView(LoginRequiredMixin,CreateView):
     template_name = 'articles/create_article.html'
     # model = Article
     # fields = ['title', 'author', 'content', 'tags']
@@ -59,7 +62,7 @@ class UpdateArticleView(UpdateView):
 class DeleteArticleView(DeleteView):
     model = Article
     template_name = 'articles/delete_article.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('webapp:index')
 
 
 

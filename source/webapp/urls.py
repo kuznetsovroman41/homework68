@@ -3,6 +3,9 @@ from django.urls import path
 from webapp.views import UpdateArticleView, DeleteArticleView, ArticleListView, CreateArticleView, DetailArticleView
 from webapp.views.comments import CreateCommentView, UpdateCommentView, DeleteCommentView
 
+app_name = 'webapp'
+
+#webapp:index
 urlpatterns = [
     path('', ArticleListView.as_view(), name='index'),
     path('add-article/', CreateArticleView.as_view(), name='add-article'),

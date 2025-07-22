@@ -14,9 +14,9 @@
                         <h5 class="card-title">{{ article.title }}</h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">{{ article.author }}</h6>
                         <p class="card-text">{{ article.content }}</p>
-                        <a href="{% url 'article-detail' article.pk %}" class="card-link btn btn-primary">Detail</a>
-                        <a href="{% url 'article-update' article.pk %}" class="card-link btn btn-primary">Update</a>
-                        <a href="{% url 'article-delete' article.pk %}" class="card-link btn btn-primary">Delete</a>
+                        <a href="{% url 'webapp:article-detail' article.pk %}" class="card-link btn btn-primary">Detail</a>
+                        <a href="{% url 'webapp:article-update' article.pk %}" class="card-link btn btn-primary">Update</a>
+                        <a href="{% url 'webapp:article-delete' article.pk %}" class="card-link btn btn-primary">Delete</a>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,7 @@
     <form action="" method="post">
         {% csrf_token %}
         <p>Вы действительно хотите удалить статью {{ article.title }}?</p>
-        <a class="btn" href="{% url 'index' %}">Cancel</a>
+        <a class="btn" href="{% url 'webapp:index' %}">Cancel</a>
         <button class="btn"  type="submit">Yes</button>
     </form>
 {% endblock %}

@@ -19,4 +19,4 @@ class Comment(BaseCreateUpdateModel):
         verbose_name_plural = "Комментарии"
 
     def get_absolute_url(self):
-        return reverse("article-detail", kwargs={"pk": self.article_id})
+        return reverse("webapp:article-detail", kwargs={"pk": self.article_id})
