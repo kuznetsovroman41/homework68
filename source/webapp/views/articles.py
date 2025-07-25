@@ -15,7 +15,7 @@ class ArticleListView(ListView):
     model = Article
     context_object_name = "articles"
     ordering = ['-created_at']
-    paginate_by = 5
+    paginate_by = 12
 
     def dispatch(self, request, *args, **kwargs):
         print(request.user)

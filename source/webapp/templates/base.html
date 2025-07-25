@@ -37,7 +37,7 @@
 
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <form action="{% url 'accounts:logout' %}" method="post">
+                        <form action="{% url 'accounts:logout' %}?next={{ request.get_full_path }}" method="post">
                             {% csrf_token %}
                             <button class="nav-link active" type="submit">Logout</button>
                         </form>
@@ -46,7 +46,10 @@
 
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'accounts:login' %}">Login</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'accounts:login' %}?next={{ request.get_full_path }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'accounts:registration' %}?next={{ request.get_full_path }}">Registration</a>
                     </li>
                 {% endif %}
             </ul>

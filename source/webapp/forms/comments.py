@@ -8,4 +8,4 @@ class CommentForm(BaseForm):
 
     class Meta:
         model = Comment
-        fields = ('text', 'author',)
+        fields = ('text',)
