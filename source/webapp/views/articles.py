@@ -51,6 +51,10 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
     # fields = ['title', 'author', 'content', 'tags']
     form_class = ArticleForm
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 class UpdateArticleView(UpdateView):
     template_name = 'articles/update_article.html'
