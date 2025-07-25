@@ -28,6 +28,7 @@ class Article(BaseCreateUpdateModel):
         db_table = 'articles'
         verbose_name = 'Статья'
         verbose_name_plural = "Статьи"
+        permissions = [("change_article_status", "Can change article status")]
 
 
     def get_absolute_url(self):
