@@ -6,34 +6,6 @@
 
 {% block content %}
     {% include "partial/simple_search.html" with form=search_form %}
-    <div class="row mt-3">
-        {% for article in articles %}
-            <div class="col-12 col-md-4 col-lg-3 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ article.title }}</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ article.author }}</h6>
-                        <p class="card-text">{{ article.content }}</p>
-                        <a href="{% url 'webapp:article-detail' article.pk %}"
-                           class="card-link btn btn-primary">Detail</a>
-
-                        {% if perms.webapp.change_article or user == article.author %}
-                            <a href="{% url 'webapp:article-update' article.pk %}" class="card-link btn btn-primary">Update</a>
-                        {% endif %}
-                        {% if perms.webapp.delete_article or user == article.author %}
-                            <a href="{% url 'webapp:article-delete' article.pk %}"
-                               class="card-link btn btn-primary">Delete</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <p>No articles</p>
-        {% endfor %}
-    </div>
-
-    {% if is_paginated %}
-        {% include "partial/pagination.html" %}
-    {% endif %}
+    {% include "partial/articles_list.html" %}
 
 {% endblock %}
