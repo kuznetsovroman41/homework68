@@ -1,6 +1,20 @@
 {% extends 'base.html' %}
 
 
+
+{% block nav %}
+    {% if user == user_obj %}
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page"
+               href="{% url 'accounts:change-profile' user_obj.pk %}">Change profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page"
+               href="{% url 'accounts:change-password' user_obj.pk %}">Change password</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <div class="card" style="width: 18rem;">
         {% if  user_obj.profile.avatar %}
