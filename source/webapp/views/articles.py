@@ -5,9 +5,8 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from webapp.models.like import CommentLike
 from webapp.forms import ArticleForm, SearchForm
-
 from webapp.models import Article
 
 
@@ -27,7 +26,15 @@ class ArticleListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.search_value:
-            queryset = queryset.filter(Q(title__icontains=self.search_value) | Q(author__icontains=self.search_value))
+            queryset = queryset.filter(
+                Q(title__icontains=self.search_value) |
+                Q(author__icontains=self.search_value)
+            )
+
+        if self.request.user.is_authenticated:
+            for article in queryset:
+                article.is_liked_by_user = article.likes.filter(user=self.request.user).exists()
+
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -44,7 +51,7 @@ class ArticleListView(ListView):
     def get_search_value(self):
         if self.form.is_valid():
             return self.form.cleaned_data['search']
-
+        return None
 
 class CreateArticleView(LoginRequiredMixin, CreateView):
     template_name = 'articles/create_article.html'
@@ -86,14 +93,21 @@ class DeleteArticleView(PermissionRequiredMixin, DeleteView):
     def has_permission(self):
         return super().has_permission() or self.request.user == self.get_object().author
 
-
-
 class DetailArticleView(DetailView):
     template_name = 'articles/detail_article.html'
     model = Article
 
-
     def get_context_data(self, **kwargs):
-        result = super().get_context_data(**kwargs)
-        result['comments'] = self.object.comments.order_by('-created_at')
-        return result
+        context = super().get_context_data(**kwargs)
+        comments = self.object.comments.order_by('-created_at')
+
+        if self.request.user.is_authenticated:
+            for comment in comments:
+                comment.is_liked_by_user = CommentLike.objects.filter(
+                    comment=comment,
+                    user=self.request.user
+                ).exists()
+                comment.likes_count = CommentLike.objects.filter(comment=comment).count()
+
+        context['comments'] = comments
+        return context

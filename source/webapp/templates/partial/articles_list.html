@@ -1,3 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Articles</title>
+{% endblock %}
+
+{% block content %}
 <div class="row mt-3">
     {% for article in articles %}
         <div class="col-12 col-md-4 col-lg-3 mb-3">
@@ -5,7 +12,6 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ article.title }}</h5>
                     <h6 class="card-subtitle mb-2 text-body-secondary">{{ article.author }}</h6>
-                    <p class="card-text">{{ article.content }}</p>
                     <a href="{% url 'webapp:article-detail' article.pk %}"
                        class="card-link btn btn-primary">Detail</a>
 
@@ -17,10 +23,22 @@
                         <a href="{% url 'webapp:article-delete' article.pk %}"
                            class="card-link btn btn-primary">Delete</a>
                     {% endif %}
+
+                    {% if user.is_authenticated %}
+                        <div class="mt-2">
+                            <button class="like-btn btn btn-outline-primary"
+                                    data-id="{{ article.id }}"
+                                    data-type="article"
+                                    data-liked="{{ article.is_liked_by_user|yesno:'true,false' }}">
+                                {% if article.is_liked_by_user %}Анлайк{% else %}Лайк{% endif %}
+                            </button>
+                            <span class="likes-count">{{ article.likes_count }}</span>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
-        {% empty %}
+    {% empty %}
         <p>No articles</p>
     {% endfor %}
 </div>
@@ -28,3 +46,9 @@
 {% if is_paginated %}
     {% include "partial/pagination.html" %}
 {% endif %}
+
+{% load static %}
+<script src="{% static 'js/likes.js' %}"></script>
+{% endblock %}
+
+

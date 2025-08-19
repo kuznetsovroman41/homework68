@@ -6,11 +6,27 @@ from webapp.models.base_create_update import BaseCreateUpdateModel
 
 
 class Comment(BaseCreateUpdateModel):
-    article = models.ForeignKey('webapp.Article', related_name='comments', on_delete=models.CASCADE,
-                                verbose_name='Статья')
+    article = models.ForeignKey(
+        'webapp.Article',
+        related_name='comments',
+        on_delete=models.CASCADE,
+        verbose_name='Статья'
+    )
     text = models.TextField(max_length=400, verbose_name='Комментарий')
-    author = models.ForeignKey(get_user_model(), related_name='comments', on_delete=models.SET_DEFAULT, default=1,
-                               verbose_name="Автор")
+    author = models.ForeignKey(
+        get_user_model(),
+        related_name='comments',
+        on_delete=models.SET_DEFAULT,
+        default=1,
+        verbose_name="Автор"
+    )
+    likes = models.ManyToManyField(
+        get_user_model(),
+        through='webapp.CommentLike',
+        related_name='liked_comments',
+        blank=True,
+        verbose_name='Лайки'
+    )
 
     def __str__(self):
         return self.text[:20]
